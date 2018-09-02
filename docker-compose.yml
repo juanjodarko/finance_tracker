@@ -1,0 +1,21 @@
+version: '3.6'
+
+services:
+  finance_tracker:
+    build: finance-tracker/.
+    volumes:
+      - ./finance-tracker/.:/app/:rw
+    working_dir: /app
+    command: puma
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres@db
+  
+  db:
+    image: postgres:10.3-alpine
+    volumes:
+      - ./database:/var/lib/postgresql/data:rw
+  
